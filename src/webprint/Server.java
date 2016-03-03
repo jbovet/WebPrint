@@ -238,7 +238,7 @@ class Server {
                         } else {
                             if (app.acl.isAllowed(origin, cookie)) {
                                 if (action.equals("listprinters")) {
-                                    PrintServiceMatcher.getPrinterArray(true);
+                                    PrintServiceMatcher.getPrinterArray(true, true); //get Default printer
                                     String[] printerArray = PrintServiceMatcher.getPrinterListing().split(",");
                                     JSONArray jprintArray = new JSONArray(printerArray);
                                     responseJson.put("printers", jprintArray);

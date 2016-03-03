@@ -130,6 +130,35 @@ public class PrintServiceMatcher {
         
         return printers;
     }
+    
+      public static PrintService[] getPrinterArray(boolean forceSearch, boolean defaultPrinter) {
+        if(!defaultPrinter){
+          return getPrinterArray(forceSearch);
+        }
+        if (forceSearch || printers == null || printers.length == 0) {
+            printerListing = "";
+            PrintService[] services = new PrintService[1];
+            PrintService service = PrintServiceLookup.lookupDefaultPrintService();   
+            if(service == null) {
+                printerListing = "No Printer found.";
+                return new PrintService[0];
+            }
+            for (int i = 0; i < services.length; i++) {
+                PrintServiceAttributeSet psa = service.getAttributes();
+                printerListing  = printerListing  + psa.get(PrinterName.class);
+                if (i != (services.length - 1)) {
+                    printerListing  = printerListing  + ",";
+                }
+             services[i] = service;
+            }
+            printers = services;
+        }
+        
+        return printers;
+        
+        }
+    
+          
 
     /**
      * Returns a CSV format of printer names, convenient for JavaScript
